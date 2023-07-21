@@ -18,15 +18,14 @@ class Err_List:
     def add(self, data):
         self.ErrEleList.append(data)
 
-class MyProcess:
-    def __init__(self):
+class MyProcess():
+    def __init__(self, widget):
         self.err_list = Err_List()  #错误数据列表
+        self.myWidget = widget
 
     def MQTTAnalyse(self, path):
         global ErrEleIdx    #错误数据序号
         ErrEleIdx = 0
-        from pyExcel_main import MyWidget
-        myWidget = MyWidget()
         
         print("MQTTAnalyse")
         print(path)
@@ -40,7 +39,7 @@ class MyProcess:
         while sheet.cell(row=sheet_row, column=1).value is not None:
             sheet_row += 1
         print(f'总行数：{sheet_row}')
-        myWidget.progress_bar.setMaximum(sheet_row)
+        self.myWidget.progress_bar.setMaximum(sheet_row)
 
         #算出总行数和数据个数
         idx = 3     #从第三行开始
@@ -54,12 +53,14 @@ class MyProcess:
                 if err != 0b00000000:
                     errcount += 1
                 row += 1
-            myWidget.progress_bar.setValue(idx)
-            myWidget.progress_bar.update()
+            self.myWidget.progress_bar.setValue(idx)
+            self.myWidget.progress_bar.update()
             idx += 1
         row += 1
         ele_count = row - 2
         print(f'总行数：{row}, 数据个数：{ele_count}, 错误个数：{errcount}')
+        self.myWidget.progress_bar.setValue(sheet_row)
+        self.myWidget.progress_bar.update()
         return errcount
 
     #row_data[]中，0-19分别为：0数据类型号，1数据类型，2来源设备id， 3来源设备名称， 4数据ID，5数据名称

@@ -104,7 +104,7 @@ class MyWidget(QtWidgets.QWidget):
         #time.sleep(3)
         type = self.TypeComboBox.currentText()
         #print(type)
-        myprocess = MyProcess()
+        myprocess = MyProcess(self)
         if type == "MQTT":
             errcount = myprocess.MQTTAnalyse(self.info_le.text())
         elif type == "IEC104":
