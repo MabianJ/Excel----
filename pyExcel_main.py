@@ -77,7 +77,6 @@ class MyWidget(QtWidgets.QWidget):
         grid.addWidget(TypeLabel, 3, 0)
         grid.addWidget(self.TypeComboBox, 4, 0)
         grid.addWidget(self.browse_button2, 4, 1)
-        grid.setColumnStretch(5, 0)
         grid.addWidget(self.progress_bar, 5, 0)
         grid.addWidget(self.ContentEdit, 6, 0, 1, 2)
 
