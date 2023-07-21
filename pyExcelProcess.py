@@ -2,6 +2,8 @@ import openpyxl
 import sys
 import os
 import time
+from PySide6 import QtWidgets
+
 
 class Ele_info:
     def __init__(self, idx):
@@ -23,6 +25,8 @@ class MyProcess:
     def MQTTAnalyse(self, path):
         global ErrEleIdx    #错误数据序号
         ErrEleIdx = 0
+        from pyExcel_main import MyWidget
+        myWidget = MyWidget()
         
         print("MQTTAnalyse")
         print(path)
@@ -30,6 +34,13 @@ class MyProcess:
         print(workbook.sheetnames)
         sheet = workbook["转发数据"]
         #print(sheet.dimensions)
+
+        #算出表格行数
+        sheet_row = 3
+        while sheet.cell(row=sheet_row, column=1).value is not None:
+            sheet_row += 1
+        print(f'总行数：{sheet_row}')
+        myWidget.progress_bar.setMaximum(sheet_row)
 
         #算出总行数和数据个数
         idx = 3     #从第三行开始
@@ -43,6 +54,8 @@ class MyProcess:
                 if err != 0b00000000:
                     errcount += 1
                 row += 1
+            myWidget.progress_bar.setValue(idx)
+            myWidget.progress_bar.update()
             idx += 1
         row += 1
         ele_count = row - 2

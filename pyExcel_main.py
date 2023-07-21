@@ -63,7 +63,7 @@ class MyWidget(QtWidgets.QWidget):
         self.TypeComboBox.addItem("IEC104")
         self.TypeComboBox.addItem("modbusTCP")
 
-        self.progress_bar.setMaximumHeight(20)
+        self.progress_bar.setMaximumHeight(15)
 
         self.ContentEdit.setReadOnly(True)
         #ContentEdit.setHorizontalScrollBarPolicy(QtWidgets.Qt.ScrollBarAsNeeded)
@@ -77,7 +77,7 @@ class MyWidget(QtWidgets.QWidget):
         grid.addWidget(TypeLabel, 3, 0)
         grid.addWidget(self.TypeComboBox, 4, 0)
         grid.addWidget(self.browse_button2, 4, 1)
-        grid.addWidget(self.progress_bar, 5, 0)
+        grid.addWidget(self.progress_bar, 5, 0, 1, 2)
         grid.addWidget(self.ContentEdit, 6, 0, 1, 2)
 
         self.setLayout(grid)
@@ -95,6 +95,8 @@ class MyWidget(QtWidgets.QWidget):
         self.ContentEdit.append(text)
 
     def analyse_process(self):
+        #self.progress_bar.setValue(50)
+        #self.progress_bar.update()
         self.browse_button2.setDisabled(True)
         self.browse_button2.setText("请稍后")
         #self.browse_button2.setStyleSheet("background-color:rgb(255, 0, 0)")
@@ -112,7 +114,7 @@ class MyWidget(QtWidgets.QWidget):
 
         if errcount != 0:
             for i in range(errcount):
-                text = (f'错误数据[{i}]:序号{myprocess.err_list.ErrEleList[i].count}, 行号{myprocess.err_list.ErrEleList[i].row}, 错误码{myprocess.err_list.ErrEleList[i].errcode}')
+                text = (f'错误数据[{i}]:序号{myprocess.err_list.ErrEleList[i].count}, 行号{myprocess.err_list.ErrEleList[i].row}, 错误码{myprocess.err_list.ErrEleList[i].errcode:b}')
                 self.PrintText(text)
                 print(text)
             text = "分析完成\n"
